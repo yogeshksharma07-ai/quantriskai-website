@@ -67,7 +67,7 @@ html<div class="contact-item">
     <strong>Email:</strong> your-email@quantrisk.ai
 </div>
 <div class="contact-item">
-    <strong>Phone:</strong> +1 (555) 123-4567
+    <strong>Phone:</strong> +91 123456789
 </div>
 Customizing Risk Calculator
 Modify the risk calculation formula in assets/js/interactive.js:
@@ -140,4 +140,5 @@ For customization help or questions about implementing additional features, the 
 
 Built with: HTML5, CSS3, Vanilla JavaScript
 Dependencies: Inter Font (Google Fonts)
+
 License: Customizable for QuantRisk.AI use
