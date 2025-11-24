@@ -1,6 +1,12 @@
-/ Animation Controllers for QuantRisk.AI
+// Animation Controllers for QuantRisk.AI
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    setTimeout(() => {
+        addMeterPulseAnimation();
+        initializeParallax();
+        initializeFloatingAnimations();
+    }, 100);
+
     initializeHeroAnimations();
     initializeCounterAnimations();
     initializeServiceCardAnimations();
@@ -10,12 +16,12 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeHeroAnimations() {
     const heroTitle = document.getElementById('heroTitle');
     if (!heroTitle) return;
-    
+
     // Store original text and clear
     const originalText = heroTitle.textContent;
     heroTitle.textContent = '';
     heroTitle.style.opacity = '1';
-    
+
     // Typing effect
     let index = 0;
     function typeText() {
@@ -27,7 +33,7 @@ function initializeHeroAnimations() {
             // Add cursor blink effect briefly
             heroTitle.style.borderRight = '3px solid white';
             heroTitle.style.animation = 'blink 1s infinite';
-            
+
             // Remove cursor after 3 seconds
             setTimeout(() => {
                 heroTitle.style.borderRight = 'none';
@@ -35,7 +41,7 @@ function initializeHeroAnimations() {
             }, 3000);
         }
     }
-    
+
     // Start typing after hero section is visible
     setTimeout(typeText, 1000);
 }
@@ -46,7 +52,7 @@ function initializeCounterAnimations() {
         threshold: 0.5,
         rootMargin: '0px'
     };
-    
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting && !entry.target.dataset.animated) {
@@ -55,7 +61,7 @@ function initializeCounterAnimations() {
             }
         });
     }, observerOptions);
-    
+
     document.querySelectorAll('.stat-number').forEach(el => {
         observer.observe(el);
     });
@@ -65,14 +71,14 @@ function animateCounter(element) {
     const target = element.textContent;
     const isPercentage = target.includes('%');
     const numericTarget = parseInt(target.replace(/[^\d]/g, ''));
-    
+
     let current = 0;
     const increment = numericTarget / 50; // 50 steps for smooth animation
     const duration = 2000; // 2 seconds
     const stepTime = duration / 50;
-    
+
     element.textContent = '0' + (isPercentage ? '%' : '+');
-    
+
     const timer = setInterval(() => {
         current += increment;
         if (current >= numericTarget) {
@@ -88,7 +94,7 @@ function animateCounter(element) {
 // Service Card Hover Animations
 function initializeServiceCardAnimations() {
     const serviceCards = document.querySelectorAll('.service-card');
-    
+
     serviceCards.forEach(card => {
         card.addEventListener('mouseenter', handleCardHover);
         card.addEventListener('mouseleave', handleCardLeave);
@@ -112,49 +118,23 @@ function handleCardLeave(e) {
 
 // Parallax Effect for Hero Background
 function initializeParallax() {
-    const hero = document.querySelector('.hero');
-    if (!hero) return;
-    
+    const heroBg = document.querySelector('.hero-bg');
+    if (!heroBg) return;
+
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
         const parallaxSpeed = 0.5;
-        
-        if (scrolled < window.innerHeight) {
-            hero.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
-        }
-    });
-}
 
-// Progressive Element Reveal
-function initializeProgressiveReveal() {
-    const revealElements = document.querySelectorAll('.service-card, .feature-item');
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }, index * 100); // Stagger the animations
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-    
-    revealElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'all 0.6s ease';
-        observer.observe(el);
+        if (scrolled < window.innerHeight) {
+            heroBg.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
+        }
     });
 }
 
 // Floating Action Animations
 function initializeFloatingAnimations() {
     const floatingElements = document.querySelectorAll('.feature-icon');
-    
+
     floatingElements.forEach((element, index) => {
         // Add subtle floating animation with different delays
         element.style.animation = `float 6s ease-in-out ${index * 0.5}s infinite`;
@@ -186,15 +166,6 @@ function addMeterPulseAnimation() {
             }
         }
         
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-        
         .meter-circle.high-risk {
             animation: pulse 2s infinite;
         }
@@ -202,55 +173,21 @@ function addMeterPulseAnimation() {
     document.head.appendChild(pulseStyles);
 }
 
-// Text Reveal Animation
-function revealTextOnScroll() {
-    const textElements = document.querySelectorAll('.about-text p, .contact-info p');
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateX(0)';
-            }
-        });
-    }, {
-        threshold: 0.3
-    });
-    
-    textElements.forEach((el, index) => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateX(-20px)';
-        el.style.transition = `all 0.6s ease ${index * 0.1}s`;
-        observer.observe(el);
-    });
-}
-
-// Initialize all animations
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(() => {
-        addMeterPulseAnimation();
-        initializeParallax();
-        initializeProgressiveReveal();
-        initializeFloatingAnimations();
-        revealTextOnScroll();
-    }, 100);
-});
-
 // Smooth scroll to section with highlight
 function scrollToSection(sectionId) {
     const section = document.getElementById(sectionId);
     if (!section) return;
-    
+
     // Scroll to section
     section.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
     });
-    
+
     // Highlight section briefly
     section.style.transition = 'background-color 0.5s ease';
     section.style.backgroundColor = 'rgba(59, 130, 246, 0.05)';
-    
+
     setTimeout(() => {
         section.style.backgroundColor = 'transparent';
     }, 2000);
@@ -266,7 +203,7 @@ function showPageLoader() {
             <div class="loader-spinner"></div>
         </div>
     `;
-    
+
     loader.style.cssText = `
         position: fixed;
         top: 0;
@@ -280,7 +217,7 @@ function showPageLoader() {
         justify-content: center;
         color: white;
     `;
-    
+
     const loaderStyles = document.createElement('style');
     loaderStyles.textContent = `
         .loader-content {
@@ -308,10 +245,10 @@ function showPageLoader() {
             100% { transform: rotate(360deg); }
         }
     `;
-    
+
     document.head.appendChild(loaderStyles);
     document.body.appendChild(loader);
-    
+
     // Hide loader after page load
     window.addEventListener('load', () => {
         setTimeout(() => {
